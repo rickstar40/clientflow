@@ -4,23 +4,293 @@
 
 <head>
 
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="theme-color" content="#111827">
+<title>ClientFlow | Client Management</title>
 
-  <meta name="description" content="ClientFlow - Manage your customers, enquiries and jobs in one place.">
+<style>
 
-  <title>ClientFlow</title>
+*{box-sizing:border-box}
+
+body{margin:0;font-family:Arial,sans-serif;background:#f4f6fa;color:#202a3b}
+
+header{background:#17243a;color:white;padding:22px}
+
+header h1{margin:0;font-size:25px}
+
+header p{margin:7px 0 0;color:#bdc9dc}
+
+.container{max-width:1100px;margin:auto;padding:22px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
+
+.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 12px #17243a0c;margin-bottom:16px}
+
+.stat{font-size:28px;font-weight:bold;margin-top:10px}
+
+h2{font-size:19px}
+
+input,button{padding:12px;border-radius:7px;border:1px solid #d9deea;font-size:14px}
+
+input{width:100%;margin:6px 0 12px}
+
+button{background:#315ee8;color:white;border:0;cursor:pointer}
+
+button:hover{background:#244bc5}
+
+form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
+
+form button{align-self:end;margin-bottom:12px}
+
+table{width:100%;border-collapse:collapse}
+
+th,td{text-align:left;padding:12px;border-bottom:1px solid #edf0f5}
+
+th{color:#68758a;font-size:13px}
+
+.delete{background:#e34b4b;padding:7px 10px}
+
+.table-wrap{overflow-x:auto}
+
+.empty{text-align:center;color:#8993a5;padding:25px}
+
+@media(max-width:600px){.container{padding:13px}.card{padding:15px}th,td{padding:9px;font-size:13px}}
+
+</style>
 
 </head>
 
 <body>
 
-  <div id="root"></div>
+<header>
 
-  <script type="module" src="/src/main.js"></script>
+<h1>ClientFlow</h1>
+
+<p>Your business. Your clients. All in one place.</p>
+
+</header>
+
+<main class="container">
+
+<div class="stats">
+
+<div class="card">
+
+Clients
+
+<div class="stat" id="total">0</div>
+
+</div>
+
+<div class="card">
+
+Active clients
+
+<div class="stat" id="active">0</div>
+
+</div>
+
+<div class="card">
+
+Total enquiries
+
+<div class="stat" id="enquiries">0</div>
+
+</div>
+
+</div>
+
+<section class="card">
+
+<h2>Add a new client</h2>
+
+<form id="clientForm">
+
+<div>
+
+<label>Client name</label>
+
+<input id="name" placeholder="Full name" required>
+
+</div>
+
+<div>
+
+<label>Email address</label>
+
+<input id="email" type="email" placeholder="Email">
+
+</div>
+
+<div>
+
+<label>Phone number</label>
+
+<input id="phone" placeholder="Phone number">
+
+</div>
+
+<div>
+
+<label>Client status</label>
+
+<select id="status" style="width:100%;padding:12px;border:1px solid #d9deea;border-radius:7px">
+
+<option>Active</option>
+
+<option>Enquiry</option>
+
+<option>Completed</option>
+
+</select>
+
+</div>
+
+<button type="submit">+ Add client</button>
+
+</form>
+
+</section>
+
+<section class="card">
+
+<h2>Client directory</h2>
+
+<input id="search" placeholder="Search clients..." oninput="render()">
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Action</th></tr>
+
+</thead>
+
+<tbody id="clients"></tbody>
+
+</table>
+
+</div>
+
+</section>
+
+<p style="text-align:center;color:#8993a5;font-size:12px">ClientFlow © 2026</p>
+
+</main>
+
+<script>
+
+let data=[];
+
+try {
+
+data=JSON.parse(localStorage.getItem("clientflow_clients")||"[]");
+
+if(!Array.isArray(data))data=[];
+
+} catch(e){data=[];}
+
+function save(){
+
+localStorage.setItem("clientflow_clients",JSON.stringify(data));
+
+render();
+
+}
+
+function render(){
+
+const query=document.getElementById("search").value.toLowerCase();
+
+const filtered=data.filter(c=>
+
+(c.name+c.email+c.phone+c.status).toLowerCase().includes(query)
+
+);
+
+document.getElementById("total").textContent=data.length;
+
+document.getElementById("active").textContent=data.filter(c=>c.status==="Active").length;
+
+document.getElementById("enquiries").textContent=data.filter(c=>c.status==="Enquiry").length;
+
+const tbody=document.getElementById("clients");
+
+tbody.innerHTML="";
+
+if(!filtered.length){
+
+tbody.innerHTML='<tr><td colspan="5" class="empty">No clients found. Add your first client above.</td></tr>';
+
+return;
+
+}
+
+filtered.forEach(c=>{
+
+const tr=document.createElement("tr");
+
+[c.name,c.email,c.phone,c.status].forEach(value=>{
+
+const td=document.createElement("td");
+
+td.textContent=value;
+
+tr.appendChild(td);
+
+});
+
+const td=document.createElement("td");
+
+const btn=document.createElement("button");
+
+btn.textContent="Delete";
+
+btn.className="delete";
+
+btn.onclick=()=>{if(confirm("Delete this client?")){data=data.filter(x=>x.id!==c.id);save();}};
+
+td.appendChild(btn);
+
+tr.appendChild(td);
+
+tbody.appendChild(tr);
+
+});
+
+}
+
+document.getElementById("clientForm").addEventListener("submit",function(e){
+
+e.preventDefault();
+
+data.push({
+
+id:Date.now(),
+
+name:document.getElementById("name").value.trim(),
+
+email:document.getElementById("email").value.trim(),
+
+phone:document.getElementById("phone").value.trim(),
+
+status:document.getElementById("status").value
+
+});
+
+save();
+
+this.reset();
+
+});
+
+render();
+
+</script>
 
 </body>
 
