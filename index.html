@@ -57,7 +57,24 @@ th{color:#68758a;font-size:13px}
 .empty{text-align:center;color:#8993a5;padding:25px}
 
 @media(max-width:600px){.container{padding:13px}.card{padding:15px}th,td{padding:9px;font-size:13px}}
+@media (max-width: 600px) {
+  .table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
+  .table-wrap table {
+    min-width: 680px;
+    width: 100%;
+    table-layout: auto;
+  }
+
+  .table-wrap th,
+  .table-wrap td {
+    white-space: nowrap;
+  }
+}
 </style>
 
 </head>
