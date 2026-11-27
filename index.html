@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -6,353 +8,79 @@
 
 <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <title>ClientFlow | Client Management</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
 
-* {
+*{box-sizing:border-box}
 
-  box-sizing: border-box;
+body{margin:0;font-family:Arial,sans-serif;background:#f3f5f9;color:#202a3b}
 
-}
+header{background:#17243a;color:white;padding:24px}
 
-body {
+header h1{margin:0;font-size:27px}
 
-  margin: 0;
+header p{color:#bdc9dc;margin:7px 0 0}
 
-  font-family: Arial, sans-serif;
+.container{max-width:1100px;margin:auto;padding:20px}
 
-  background: #f4f6fa;
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 
-  color: #202a3b;
+.card{background:white;padding:20px;border-radius:12px;margin-bottom:16px;box-shadow:0 2px 12px #17243a0c}
 
-}
+.stat{font-size:30px;font-weight:bold;margin-top:10px}
 
-header {
+h2{font-size:19px}
 
-  background: #17243a;
+input,select,button{padding:13px;border-radius:7px;border:1px solid #d9deea;font-size:15px}
 
-  color: white;
+input,select{width:100%;margin:6px 0 12px}
 
-  padding: 24px;
+form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
-}
+button{background:#315ee8;color:white;border:0;cursor:pointer}
 
-header h1 {
+button:disabled{opacity:.5}
 
-  margin: 0;
+.delete{background:#df4848;padding:9px 12px}
 
-  font-size: 26px;
+.table-wrap{overflow-x:auto}
 
-}
+table{width:100%;border-collapse:collapse}
 
-header p {
+th,td{text-align:left;padding:12px;border-bottom:1px solid #edf0f5}
 
-  margin: 7px 0 0;
+th{color:#68758a;font-size:13px}
 
-  color: #bdc9dc;
+#message{padding:12px;border-radius:8px;margin-bottom:15px;display:none}
 
-}
+footer{text-align:center;color:#8993a5;padding:20px;font-size:12px}
 
-.container {
+@media(max-width:600px){
 
-  max-width: 1100px;
+.container{padding:12px}
 
-  margin: auto;
+header{padding:20px 16px}
 
-  padding: 22px;
+.grid{grid-template-columns:1fr}
 
-}
+.card{padding:15px}
 
-.stats {
+form{grid-template-columns:1fr}
 
-  display: grid;
+table,tbody,tr,td{display:block;width:100%}
 
-  grid-template-columns: repeat(3, 1fr);
+thead{display:none}
 
-  gap: 14px;
+tbody tr{background:#f8f9fc;padding:10px;margin-bottom:12px;border-radius:9px}
 
-}
+tbody td{display:flex;justify-content:space-between;gap:10px;font-size:13px}
 
-.card {
-
-  background: white;
-
-  padding: 20px;
-
-  border-radius: 12px;
-
-  box-shadow: 0 2px 12px #17243a0c;
-
-  margin-bottom: 16px;
-
-  min-width: 0;
-
-}
-
-.stat {
-
-  font-size: 28px;
-
-  font-weight: bold;
-
-  margin-top: 10px;
-
-}
-
-h2 {
-
-  font-size: 19px;
-
-}
-
-input, button, select {
-
-  padding: 12px;
-
-  border-radius: 7px;
-
-  border: 1px solid #d9deea;
-
-  font-size: 14px;
-
-}
-
-input {
-
-  width: 100%;
-
-  margin: 6px 0 12px;
-
-}
-
-button {
-
-  background: #315ee8;
-
-  color: white;
-
-  border: 0;
-
-  cursor: pointer;
-
-}
-
-button:hover {
-
-  background: #244bc5;
-
-}
-
-form {
-
-  display: grid;
-
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-
-  gap: 12px;
-
-}
-
-form button {
-
-  align-self: end;
-
-  margin-bottom: 12px;
-
-}
-
-.table-wrap {
-
-  width: 100%;
-
-  overflow-x: auto;
-
-}
-
-table {
-
-  width: 100%;
-
-  border-collapse: collapse;
-
-}
-
-th, td {
-
-  text-align: left;
-
-  padding: 12px;
-
-  border-bottom: 1px solid #edf0f5;
-
-  overflow-wrap: anywhere;
-
-}
-
-th {
-
-  color: #68758a;
-
-  font-size: 13px;
-
-}
-
-.delete {
-
-  background: #e34b4b;
-
-  padding: 8px 12px;
-
-}
-
-.empty {
-
-  text-align: center;
-
-  color: #8993a5;
-
-  padding: 25px;
-
-}
-
-footer {
-
-  text-align: center;
-
-  color: #8993a5;
-
-  font-size: 12px;
-
-  padding: 15px;
-
-}
-
-@media (max-width: 600px) {
-
-  .container {
-
-    padding: 12px;
-
-  }
-
-  header {
-
-    padding: 20px 16px;
-
-  }
-
-  .stats {
-
-    grid-template-columns: 1fr;
-
-    gap: 8px;
-
-  }
-
-  .card {
-
-    padding: 15px;
-
-  }
-
-  form {
-
-    grid-template-columns: 1fr;
-
-  }
-
-  form button {
-
-    width: 100%;
-
-  }
-
-  .table-wrap {
-
-    overflow: visible;
-
-  }
-
-  table, tbody {
-
-    display: block;
-
-    width: 100%;
-
-  }
-
-  thead {
-
-    display: none;
-
-  }
-
-  tbody tr {
-
-    display: block;
-
-    background: #f8f9fc;
-
-    border: 1px solid #e5e9f1;
-
-    border-radius: 10px;
-
-    padding: 10px;
-
-    margin-bottom: 12px;
-
-  }
-
-  tbody td {
-
-    display: flex;
-
-    justify-content: space-between;
-
-    gap: 12px;
-
-    padding: 9px 4px;
-
-    border-bottom: 1px solid #e5e9f1;
-
-    font-size: 13px;
-
-    text-align: right;
-
-    overflow-wrap: anywhere;
-
-  }
-
-  tbody td::before {
-
-    content: attr(data-label);
-
-    font-weight: bold;
-
-    color: #68758a;
-
-    text-align: left;
-
-    flex-shrink: 0;
-
-  }
-
-  tbody td:last-child {
-
-    border-bottom: 0;
-
-  }
-
-  tbody td.empty {
-
-    display: block;
-
-    text-align: center;
-
-  }
+tbody td:before{content:attr(data-label);font-weight:bold}
 
 }
 
@@ -364,209 +92,171 @@ footer {
 
 <header>
 
-  <h1>ClientFlow</h1>
+<h1>ClientFlow</h1>
 
-  <p>Your business. Your clients. All in one place.</p>
+<p>Your business. Your clients. All in one place.</p>
 
 </header>
 
 <main class="container">
 
-  <div class="stats">
+<div id="message"></div>
 
-    <div class="card">
+<div class="grid">
 
-      Clients
+<div class="card">Total clients<div class="stat" id="total">0</div></div>
 
-      <div class="stat" id="total">0</div>
+<div class="card">Active clients<div class="stat" id="active">0</div></div>
 
-    </div>
+<div class="card">Total enquiries<div class="stat" id="enquiries">0</div></div>
 
-    <div class="card">
+</div>
 
-      Active clients
+<section class="card">
 
-      <div class="stat" id="active">0</div>
+<h2>Add a new client</h2>
 
-    </div>
+<form id="clientForm">
 
-    <div class="card">
+<div>
 
-      Total enquiries
+<label for="name">Client name</label>
 
-      <div class="stat" id="enquiries">0</div>
+<input id="name" placeholder="Full name" required>
 
-    </div>
+</div>
 
-  </div>
+<div>
 
-  <section class="card">
+<label for="email">Email address</label>
 
-    <h2>Add a new client</h2>
+<input id="email" type="email" placeholder="Email">
 
-    <form id="clientForm">
+</div>
 
-      <div>
+<div>
 
-        <label for="name">Client name</label>
+<label for="phone">Phone number</label>
 
-        <input id="name" placeholder="Full name" required>
+<input id="phone" type="tel" placeholder="Phone number">
 
-      </div>
+</div>
 
-      <div>
+<div>
 
-        <label for="email">Email address</label>
+<label for="status">Client status</label>
 
-        <input id="email" type="email" placeholder="Email">
+<select id="status">
 
-      </div>
+<option>Active</option>
 
-      <div>
+<option>Enquiry</option>
 
-        <label for="phone">Phone number</label>
+<option>Completed</option>
 
-        <input id="phone" type="tel" placeholder="Phone number">
+</select>
 
-      </div>
+</div>
 
-      <div>
+<button type="submit" id="addButton">+ Add client</button>
 
-        <label for="status">Client status</label>
+</form>
 
-        <select id="status" style="width:100%">
+</section>
 
-          <option>Active</option>
+<section class="card">
 
-          <option>Enquiry</option>
+<h2>Client directory</h2>
 
-          <option>Completed</option>
+<input id="search" type="search" placeholder="Search clients...">
 
-        </select>
+<div class="table-wrap">
 
-      </div>
+<table>
 
-      <button type="submit">+ Add client</button>
+<thead>
 
-    </form>
+<tr>
 
-  </section>
+<th>Name</th><th>Email</th><th>Phone</th>
 
-  <section class="card">
+<th>Status</th><th>Action</th>
 
-    <h2>Client directory</h2>
+</tr>
 
-    <input
+</thead>
 
-      id="search"
+<tbody id="clients"></tbody>
 
-      placeholder="Search clients..."
+</table>
 
-      oninput="render()"
+</div>
 
-    >
+</section>
 
-    <div class="table-wrap">
-
-      <table>
-
-        <thead>
-
-          <tr>
-
-            <th>Name</th>
-
-            <th>Email</th>
-
-            <th>Phone</th>
-
-            <th>Status</th>
-
-            <th>Action</th>
-
-          </tr>
-
-        </thead>
-
-        <tbody id="clients"></tbody>
-
-      </table>
-
-    </div>
-
-  </section>
-
-  <footer>ClientFlow © 2026</footer>
+<footer>ClientFlow © 2026</footer>
 
 </main>
 
 <script>
 
-let data = [];
+const SUPABASE_URL = "https://lsfglmqxxrvtmtgvwzah.supabase.co";
 
-try {
+const SUPABASE_KEY = "sb_publishable_bgZGWSwfSUVe358EozRomw_CcINZ0Yh";
 
-  data = JSON.parse(
+const db = window.supabase.createClient(
 
-    localStorage.getItem("clientflow_clients") || "[]"
+  SUPABASE_URL,
 
-  );
+  SUPABASE_KEY
 
-  if (!Array.isArray(data)) data = [];
+);
 
-} catch (e) {
+let clients = [];
 
-  data = [];
+function message(text, error = false) {
+
+  const box = document.getElementById("message");
+
+  box.textContent = text;
+
+  box.style.display = "block";
+
+  box.style.background = error ? "#ffe8e8" : "#e6f6eb";
+
+  box.style.color = error ? "#a32222" : "#176b36";
 
 }
 
-function save() {
+function updateStats() {
 
-  localStorage.setItem(
+  document.getElementById("total").textContent = clients.length;
 
-    "clientflow_clients",
+  document.getElementById("active").textContent =
 
-    JSON.stringify(data)
+    clients.filter(c => c.status === "Active").length;
 
-  );
+  document.getElementById("enquiries").textContent =
 
-  render();
+    clients.filter(c => c.status === "Enquiry").length;
 
 }
 
 function render() {
 
-  const query = document
-
-    .getElementById("search")
-
-    .value.toLowerCase();
-
-  const filtered = data.filter(c =>
-
-    [c.name, c.email, c.phone, c.status]
-
-      .some(value =>
-
-        String(value || "").toLowerCase().includes(query)
-
-      )
-
-  );
-
-  document.getElementById("total").textContent = data.length;
-
-  document.getElementById("active").textContent =
-
-    data.filter(c => c.status === "Active").length;
-
-  document.getElementById("enquiries").textContent =
-
-    data.filter(c => c.status === "Enquiry").length;
+  const query = document.getElementById("search").value.toLowerCase();
 
   const tbody = document.getElementById("clients");
 
-  tbody.innerHTML = "";
+  tbody.replaceChildren();
+
+  const filtered = clients.filter(c =>
+
+    [c.name, c.email, c.phone, c.status]
+
+      .some(v => String(v || "").toLowerCase().includes(query))
+
+  );
 
   if (!filtered.length) {
 
@@ -576,15 +266,11 @@ function render() {
 
     td.colSpan = 5;
 
-    td.className = "empty";
-
-    td.textContent = "No clients found. Add your first client above.";
+    td.textContent = "No clients found.";
 
     tr.appendChild(td);
 
     tbody.appendChild(tr);
-
-    return;
 
   }
 
@@ -592,53 +278,35 @@ function render() {
 
     const tr = document.createElement("tr");
 
-    const fields = [
+    [["Name",c.name],["Email",c.email],
 
-      ["Name", c.name],
+     ["Phone",c.phone],["Status",c.status]]
 
-      ["Email", c.email],
+      .forEach(([label,value]) => {
 
-      ["Phone", c.phone],
+        const td = document.createElement("td");
 
-      ["Status", c.status]
+        td.dataset.label = label;
 
-    ];
+        td.textContent = value || "—";
 
-    fields.forEach(([label, value]) => {
+        tr.appendChild(td);
 
-      const td = document.createElement("td");
-
-      td.dataset.label = label;
-
-      td.textContent = value || "—";
-
-      tr.appendChild(td);
-
-    });
+      });
 
     const td = document.createElement("td");
 
     td.dataset.label = "Action";
 
-    const btn = document.createElement("button");
+    const button = document.createElement("button");
 
-    btn.textContent = "Delete";
+    button.textContent = "Delete";
 
-    btn.className = "delete";
+    button.className = "delete";
 
-    btn.onclick = () => {
+    button.onclick = () => deleteClient(c.id);
 
-      if (confirm("Delete this client?")) {
-
-        data = data.filter(x => x.id !== c.id);
-
-        save();
-
-      }
-
-    };
-
-    td.appendChild(btn);
+    td.appendChild(button);
 
     tr.appendChild(td);
 
@@ -646,72 +314,110 @@ function render() {
 
   });
 
-}
-
-document.getElementById("clientForm")
-
-  .addEventListener("submit", function(e) {
-
-    e.preventDefault();
-
-    data.push({
-
-      id: Date.now(),
-
-      name: document.getElementById("name").value.trim(),
-
-      email: document.getElementById("email").value.trim(),
-
-      phone: document.getElementById("phone").value.trim(),
-
-      status: document.getElementById("status").value
-
-    });
-
-    save();
-
-    this.reset();
-
-  });
-
-render();
-
-</script>
-<div style="margin:20px 0;">
-
-  <input
-
-    type="search"
-
-    id="clientSearch"
-
-    placeholder="Search clients..."
-
-    oninput="searchClients()"
-
-    style="width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;"
-
-  >
-
-</div>
-
-<script>
-
-function searchClients() {
-
-  const search = document.getElementById("clientSearch").value.toLowerCase();
-
-  const rows = document.querySelectorAll("#clientTable tbody tr");
-
-  rows.forEach(row => {
-
-    row.style.display = row.innerText.toLowerCase().includes(search) ? "" : "none";
-
-  });
+  updateStats();
 
 }
 
+async function loadClients() {
+
+  message("Connecting to your database...");
+
+  const { data, error } = await db
+
+    .from("clients")
+
+    .select("*")
+
+    .order("created_at", { ascending: false });
+
+  if (error) {
+
+    message("Database error: " + error.message, true);
+
+    return;
+
+  }
+
+  clients = data || [];
+
+  render();
+
+  message("Connected successfully. Your clients are loaded.");
+
+}
+
+document.getElementById("clientForm").addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  const button = document.getElementById("addButton");
+
+  button.disabled = true;
+
+  button.textContent = "Saving...";
+
+  const client = {
+
+    name: document.getElementById("name").value.trim(),
+
+    email: document.getElementById("email").value.trim(),
+
+    phone: document.getElementById("phone").value.trim(),
+
+    status: document.getElementById("status").value
+
+  };
+
+  const { error } = await db.from("clients").insert([client]);
+
+  button.disabled = false;
+
+  button.textContent = "+ Add client";
+
+  if (error) {
+
+    message("Could not save client: " + error.message, true);
+
+    return;
+
+  }
+
+  e.target.reset();
+
+  await loadClients();
+
+});
+
+async function deleteClient(id) {
+
+  if (!confirm("Are you sure you want to delete this client?")) return;
+
+  const { error } = await db
+
+    .from("clients")
+
+    .delete()
+
+    .eq("id", id);
+
+  if (error) {
+
+    message("Could not delete client: " + error.message, true);
+
+    return;
+
+  }
+
+  await loadClients();
+
+}
+
+document.getElementById("search").addEventListener("input", render);
+
+loadClients();
+
 </script>
+
 </body>
 
 </html>
