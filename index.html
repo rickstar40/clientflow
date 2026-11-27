@@ -677,7 +677,41 @@ document.getElementById("clientForm")
 render();
 
 </script>
+<div style="margin:20px 0;">
 
+  <input
+
+    type="search"
+
+    id="clientSearch"
+
+    placeholder="Search clients..."
+
+    oninput="searchClients()"
+
+    style="width:100%;padding:12px;border:1px solid #ccc;border-radius:8px;font-size:16px;"
+
+  >
+
+</div>
+
+<script>
+
+function searchClients() {
+
+  const search = document.getElementById("clientSearch").value.toLowerCase();
+
+  const rows = document.querySelectorAll("#clientTable tbody tr");
+
+  rows.forEach(row => {
+
+    row.style.display = row.innerText.toLowerCase().includes(search) ? "" : "none";
+
+  });
+
+}
+
+</script>
 </body>
 
 </html>
