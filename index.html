@@ -12,69 +12,350 @@
 
 <style>
 
-*{box-sizing:border-box}
+* {
 
-body{margin:0;font-family:Arial,sans-serif;background:#f4f6fa;color:#202a3b}
+  box-sizing: border-box;
 
-header{background:#17243a;color:white;padding:22px}
-
-header h1{margin:0;font-size:25px}
-
-header p{margin:7px 0 0;color:#bdc9dc}
-
-.container{max-width:1100px;margin:auto;padding:22px}
-
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px}
-
-.card{background:white;padding:20px;border-radius:12px;box-shadow:0 2px 12px #17243a0c;margin-bottom:16px}
-
-.stat{font-size:28px;font-weight:bold;margin-top:10px}
-
-h2{font-size:19px}
-
-input,button{padding:12px;border-radius:7px;border:1px solid #d9deea;font-size:14px}
-
-input{width:100%;margin:6px 0 12px}
-
-button{background:#315ee8;color:white;border:0;cursor:pointer}
-
-button:hover{background:#244bc5}
-
-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-
-form button{align-self:end;margin-bottom:12px}
-
-table{width:100%;border-collapse:collapse}
-
-th,td{text-align:left;padding:12px;border-bottom:1px solid #edf0f5}
-
-th{color:#68758a;font-size:13px}
-
-.delete{background:#e34b4b;padding:7px 10px}
-
-.table-wrap{overflow-x:auto}
-
-.empty{text-align:center;color:#8993a5;padding:25px}
-
-@media(max-width:600px){.container{padding:13px}.card{padding:15px}th,td{padding:9px;font-size:13px}}
-@media (max-width: 600px) {
-  .table-wrap {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  .table-wrap table {
-    min-width: 680px;
-    width: 100%;
-    table-layout: auto;
-  }
-
-  .table-wrap th,
-  .table-wrap td {
-    white-space: nowrap;
-  }
 }
+
+body {
+
+  margin: 0;
+
+  font-family: Arial, sans-serif;
+
+  background: #f4f6fa;
+
+  color: #202a3b;
+
+}
+
+header {
+
+  background: #17243a;
+
+  color: white;
+
+  padding: 24px;
+
+}
+
+header h1 {
+
+  margin: 0;
+
+  font-size: 26px;
+
+}
+
+header p {
+
+  margin: 7px 0 0;
+
+  color: #bdc9dc;
+
+}
+
+.container {
+
+  max-width: 1100px;
+
+  margin: auto;
+
+  padding: 22px;
+
+}
+
+.stats {
+
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 14px;
+
+}
+
+.card {
+
+  background: white;
+
+  padding: 20px;
+
+  border-radius: 12px;
+
+  box-shadow: 0 2px 12px #17243a0c;
+
+  margin-bottom: 16px;
+
+  min-width: 0;
+
+}
+
+.stat {
+
+  font-size: 28px;
+
+  font-weight: bold;
+
+  margin-top: 10px;
+
+}
+
+h2 {
+
+  font-size: 19px;
+
+}
+
+input, button, select {
+
+  padding: 12px;
+
+  border-radius: 7px;
+
+  border: 1px solid #d9deea;
+
+  font-size: 14px;
+
+}
+
+input {
+
+  width: 100%;
+
+  margin: 6px 0 12px;
+
+}
+
+button {
+
+  background: #315ee8;
+
+  color: white;
+
+  border: 0;
+
+  cursor: pointer;
+
+}
+
+button:hover {
+
+  background: #244bc5;
+
+}
+
+form {
+
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+
+  gap: 12px;
+
+}
+
+form button {
+
+  align-self: end;
+
+  margin-bottom: 12px;
+
+}
+
+.table-wrap {
+
+  width: 100%;
+
+  overflow-x: auto;
+
+}
+
+table {
+
+  width: 100%;
+
+  border-collapse: collapse;
+
+}
+
+th, td {
+
+  text-align: left;
+
+  padding: 12px;
+
+  border-bottom: 1px solid #edf0f5;
+
+  overflow-wrap: anywhere;
+
+}
+
+th {
+
+  color: #68758a;
+
+  font-size: 13px;
+
+}
+
+.delete {
+
+  background: #e34b4b;
+
+  padding: 8px 12px;
+
+}
+
+.empty {
+
+  text-align: center;
+
+  color: #8993a5;
+
+  padding: 25px;
+
+}
+
+footer {
+
+  text-align: center;
+
+  color: #8993a5;
+
+  font-size: 12px;
+
+  padding: 15px;
+
+}
+
+@media (max-width: 600px) {
+
+  .container {
+
+    padding: 12px;
+
+  }
+
+  header {
+
+    padding: 20px 16px;
+
+  }
+
+  .stats {
+
+    grid-template-columns: 1fr;
+
+    gap: 8px;
+
+  }
+
+  .card {
+
+    padding: 15px;
+
+  }
+
+  form {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  form button {
+
+    width: 100%;
+
+  }
+
+  .table-wrap {
+
+    overflow: visible;
+
+  }
+
+  table, tbody {
+
+    display: block;
+
+    width: 100%;
+
+  }
+
+  thead {
+
+    display: none;
+
+  }
+
+  tbody tr {
+
+    display: block;
+
+    background: #f8f9fc;
+
+    border: 1px solid #e5e9f1;
+
+    border-radius: 10px;
+
+    padding: 10px;
+
+    margin-bottom: 12px;
+
+  }
+
+  tbody td {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 9px 4px;
+
+    border-bottom: 1px solid #e5e9f1;
+
+    font-size: 13px;
+
+    text-align: right;
+
+    overflow-wrap: anywhere;
+
+  }
+
+  tbody td::before {
+
+    content: attr(data-label);
+
+    font-weight: bold;
+
+    color: #68758a;
+
+    text-align: left;
+
+    flex-shrink: 0;
+
+  }
+
+  tbody td:last-child {
+
+    border-bottom: 0;
+
+  }
+
+  tbody td.empty {
+
+    display: block;
+
+    text-align: center;
+
+  }
+
+}
+
 </style>
 
 </head>
@@ -83,227 +364,315 @@ th{color:#68758a;font-size:13px}
 
 <header>
 
-<h1>ClientFlow</h1>
+  <h1>ClientFlow</h1>
 
-<p>Your business. Your clients. All in one place.</p>
+  <p>Your business. Your clients. All in one place.</p>
 
 </header>
 
 <main class="container">
 
-<div class="stats">
+  <div class="stats">
 
-<div class="card">
+    <div class="card">
 
-Clients
+      Clients
 
-<div class="stat" id="total">0</div>
+      <div class="stat" id="total">0</div>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-Active clients
+      Active clients
 
-<div class="stat" id="active">0</div>
+      <div class="stat" id="active">0</div>
 
-</div>
+    </div>
 
-<div class="card">
+    <div class="card">
 
-Total enquiries
+      Total enquiries
 
-<div class="stat" id="enquiries">0</div>
+      <div class="stat" id="enquiries">0</div>
 
-</div>
+    </div>
 
-</div>
+  </div>
 
-<section class="card">
+  <section class="card">
 
-<h2>Add a new client</h2>
+    <h2>Add a new client</h2>
 
-<form id="clientForm">
+    <form id="clientForm">
 
-<div>
+      <div>
 
-<label>Client name</label>
+        <label for="name">Client name</label>
 
-<input id="name" placeholder="Full name" required>
+        <input id="name" placeholder="Full name" required>
 
-</div>
+      </div>
 
-<div>
+      <div>
 
-<label>Email address</label>
+        <label for="email">Email address</label>
 
-<input id="email" type="email" placeholder="Email">
+        <input id="email" type="email" placeholder="Email">
 
-</div>
+      </div>
 
-<div>
+      <div>
 
-<label>Phone number</label>
+        <label for="phone">Phone number</label>
 
-<input id="phone" placeholder="Phone number">
+        <input id="phone" type="tel" placeholder="Phone number">
 
-</div>
+      </div>
 
-<div>
+      <div>
 
-<label>Client status</label>
+        <label for="status">Client status</label>
 
-<select id="status" style="width:100%;padding:12px;border:1px solid #d9deea;border-radius:7px">
+        <select id="status" style="width:100%">
 
-<option>Active</option>
+          <option>Active</option>
 
-<option>Enquiry</option>
+          <option>Enquiry</option>
 
-<option>Completed</option>
+          <option>Completed</option>
 
-</select>
+        </select>
 
-</div>
+      </div>
 
-<button type="submit">+ Add client</button>
+      <button type="submit">+ Add client</button>
 
-</form>
+    </form>
 
-</section>
+  </section>
 
-<section class="card">
+  <section class="card">
 
-<h2>Client directory</h2>
+    <h2>Client directory</h2>
 
-<input id="search" placeholder="Search clients..." oninput="render()">
+    <input
 
-<div class="table-wrap">
+      id="search"
 
-<table>
+      placeholder="Search clients..."
 
-<thead>
+      oninput="render()"
 
-<tr><th>Name</th><th>Email</th><th>Phone</th><th>Status</th><th>Action</th></tr>
+    >
 
-</thead>
+    <div class="table-wrap">
 
-<tbody id="clients"></tbody>
+      <table>
 
-</table>
+        <thead>
 
-</div>
+          <tr>
 
-</section>
+            <th>Name</th>
 
-<p style="text-align:center;color:#8993a5;font-size:12px">ClientFlow © 2026</p>
+            <th>Email</th>
+
+            <th>Phone</th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody id="clients"></tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+  <footer>ClientFlow © 2026</footer>
 
 </main>
 
 <script>
 
-let data=[];
+let data = [];
 
 try {
 
-data=JSON.parse(localStorage.getItem("clientflow_clients")||"[]");
+  data = JSON.parse(
 
-if(!Array.isArray(data))data=[];
+    localStorage.getItem("clientflow_clients") || "[]"
 
-} catch(e){data=[];}
+  );
 
-function save(){
+  if (!Array.isArray(data)) data = [];
 
-localStorage.setItem("clientflow_clients",JSON.stringify(data));
+} catch (e) {
 
-render();
-
-}
-
-function render(){
-
-const query=document.getElementById("search").value.toLowerCase();
-
-const filtered=data.filter(c=>
-
-(c.name+c.email+c.phone+c.status).toLowerCase().includes(query)
-
-);
-
-document.getElementById("total").textContent=data.length;
-
-document.getElementById("active").textContent=data.filter(c=>c.status==="Active").length;
-
-document.getElementById("enquiries").textContent=data.filter(c=>c.status==="Enquiry").length;
-
-const tbody=document.getElementById("clients");
-
-tbody.innerHTML="";
-
-if(!filtered.length){
-
-tbody.innerHTML='<tr><td colspan="5" class="empty">No clients found. Add your first client above.</td></tr>';
-
-return;
+  data = [];
 
 }
 
-filtered.forEach(c=>{
+function save() {
 
-const tr=document.createElement("tr");
+  localStorage.setItem(
 
-[c.name,c.email,c.phone,c.status].forEach(value=>{
+    "clientflow_clients",
 
-const td=document.createElement("td");
+    JSON.stringify(data)
 
-td.textContent=value;
+  );
 
-tr.appendChild(td);
-
-});
-
-const td=document.createElement("td");
-
-const btn=document.createElement("button");
-
-btn.textContent="Delete";
-
-btn.className="delete";
-
-btn.onclick=()=>{if(confirm("Delete this client?")){data=data.filter(x=>x.id!==c.id);save();}};
-
-td.appendChild(btn);
-
-tr.appendChild(td);
-
-tbody.appendChild(tr);
-
-});
+  render();
 
 }
 
-document.getElementById("clientForm").addEventListener("submit",function(e){
+function render() {
 
-e.preventDefault();
+  const query = document
 
-data.push({
+    .getElementById("search")
 
-id:Date.now(),
+    .value.toLowerCase();
 
-name:document.getElementById("name").value.trim(),
+  const filtered = data.filter(c =>
 
-email:document.getElementById("email").value.trim(),
+    [c.name, c.email, c.phone, c.status]
 
-phone:document.getElementById("phone").value.trim(),
+      .some(value =>
 
-status:document.getElementById("status").value
+        String(value || "").toLowerCase().includes(query)
 
-});
+      )
 
-save();
+  );
 
-this.reset();
+  document.getElementById("total").textContent = data.length;
 
-});
+  document.getElementById("active").textContent =
+
+    data.filter(c => c.status === "Active").length;
+
+  document.getElementById("enquiries").textContent =
+
+    data.filter(c => c.status === "Enquiry").length;
+
+  const tbody = document.getElementById("clients");
+
+  tbody.innerHTML = "";
+
+  if (!filtered.length) {
+
+    const tr = document.createElement("tr");
+
+    const td = document.createElement("td");
+
+    td.colSpan = 5;
+
+    td.className = "empty";
+
+    td.textContent = "No clients found. Add your first client above.";
+
+    tr.appendChild(td);
+
+    tbody.appendChild(tr);
+
+    return;
+
+  }
+
+  filtered.forEach(c => {
+
+    const tr = document.createElement("tr");
+
+    const fields = [
+
+      ["Name", c.name],
+
+      ["Email", c.email],
+
+      ["Phone", c.phone],
+
+      ["Status", c.status]
+
+    ];
+
+    fields.forEach(([label, value]) => {
+
+      const td = document.createElement("td");
+
+      td.dataset.label = label;
+
+      td.textContent = value || "—";
+
+      tr.appendChild(td);
+
+    });
+
+    const td = document.createElement("td");
+
+    td.dataset.label = "Action";
+
+    const btn = document.createElement("button");
+
+    btn.textContent = "Delete";
+
+    btn.className = "delete";
+
+    btn.onclick = () => {
+
+      if (confirm("Delete this client?")) {
+
+        data = data.filter(x => x.id !== c.id);
+
+        save();
+
+      }
+
+    };
+
+    td.appendChild(btn);
+
+    tr.appendChild(td);
+
+    tbody.appendChild(tr);
+
+  });
+
+}
+
+document.getElementById("clientForm")
+
+  .addEventListener("submit", function(e) {
+
+    e.preventDefault();
+
+    data.push({
+
+      id: Date.now(),
+
+      name: document.getElementById("name").value.trim(),
+
+      email: document.getElementById("email").value.trim(),
+
+      phone: document.getElementById("phone").value.trim(),
+
+      status: document.getElementById("status").value
+
+    });
+
+    save();
+
+    this.reset();
+
+  });
 
 render();
 
