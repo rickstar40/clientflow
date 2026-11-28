@@ -36,7 +36,7 @@ header p{color:#bdc9dc;margin:7px 0 0}
 
 h2{font-size:19px}
 
-input,select,button{padding:13px;border-radius:7px;border:1px solid #d9deea;font-size:15px}
+input,select,button,textarea{padding:13px;border-radius:7px;border:1px solid #d9deea;font-size:15px}
 
 input,select{width:100%;margin:6px 0 12px}
 
@@ -44,7 +44,7 @@ form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 
 button{background:#315ee8;color:white;border:0;cursor:pointer}
 
-button:disabled{opacity:.5}
+button:disabled{opacity:.5;cursor:wait}
 
 .delete{background:#df4848;padding:9px 12px}
 
@@ -60,6 +60,18 @@ th{color:#68758a;font-size:13px}
 
 footer{text-align:center;color:#8993a5;padding:20px;font-size:12px}
 
+#chatMessages{height:300px;overflow-y:auto;border:1px solid #edf0f5;border-radius:8px;padding:12px;margin:12px 0;background:#f8f9fc}
+
+.chat-message{padding:10px 12px;border-radius:10px;margin:8px 0;max-width:85%;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.45}
+
+.chat-message.user{margin-left:auto;background:#315ee8;color:white}
+
+.chat-message.assistant{background:white;border:1px solid #edf0f5}
+
+#chatForm{display:grid;grid-template-columns:1fr auto;gap:8px}
+
+#chatInput{width:100%;margin:0;resize:vertical;min-height:48px}
+
 @media(max-width:600px){
 
 .container{padding:12px}
@@ -71,6 +83,8 @@ header{padding:20px 16px}
 .card{padding:15px}
 
 form{grid-template-columns:1fr}
+
+#chatForm{grid-template-columns:1fr}
 
 table,tbody,tr,td{display:block;width:100%}
 
@@ -100,7 +114,7 @@ tbody td:before{content:attr(data-label);font-weight:bold}
 
 <main class="container">
 
-<div id="message"></div>
+<div id="message" role="status" aria-live="polite"></div>
 
 <div class="grid">
 
@@ -194,6 +208,26 @@ tbody td:before{content:attr(data-label);font-weight:bold}
 
 </section>
 
+<section class="card" aria-labelledby="chatHeading">
+
+<h2 id="chatHeading">Chat with ClientFlow AI</h2>
+
+<p>Ask for general help with organizing clients and managing your workflow. Don’t include sensitive or confidential information.</p>
+
+<div id="chatMessages" role="log" aria-live="polite" aria-label="Chat messages"></div>
+
+<form id="chatForm">
+
+<label for="chatInput" class="visually-hidden">Your message</label>
+
+<textarea id="chatInput" maxlength="4000" placeholder="Ask a question..." required></textarea>
+
+<button type="submit" id="chatSend">Send</button>
+
+</form>
+
+</section>
+
 <footer>ClientFlow © 2026</footer>
 
 </main>
@@ -213,6 +247,7 @@ const db = window.supabase.createClient(
 );
 
 let clients = [];
+let chatHistory = [];
 
 function message(text, error = false) {
 
@@ -412,7 +447,87 @@ async function deleteClient(id) {
 
 }
 
+function addChatMessage(role, text) {
+
+  const item = document.createElement("div");
+
+  item.className = "chat-message " + role;
+
+  item.textContent = text;
+
+  document.getElementById("chatMessages").appendChild(item);
+
+  item.scrollIntoView({ block: "nearest" });
+
+}
+
+document.getElementById("chatForm").addEventListener("submit", async e => {
+
+  e.preventDefault();
+
+  const input = document.getElementById("chatInput");
+
+  const button = document.getElementById("chatSend");
+
+  const text = input.value.trim();
+
+  if (!text || button.disabled) return;
+
+  input.value = "";
+
+  chatHistory.push({ role: "user", content: text });
+
+  addChatMessage("user", text);
+
+  button.disabled = true;
+
+  button.textContent = "Thinking…";
+
+  try {
+
+    const { data, error } = await db.functions.invoke("chat", {
+
+      body: { messages: chatHistory }
+
+    });
+
+    if (error) throw error;
+
+    if (!data || typeof data.reply !== "string") {
+
+      throw new Error("The assistant returned an invalid response.");
+
+    }
+
+    chatHistory.push({ role: "assistant", content: data.reply });
+
+    addChatMessage("assistant", data.reply);
+
+  } catch (error) {
+
+    chatHistory.pop();
+
+    input.value = text;
+
+    addChatMessage("assistant", "Sorry, the AI assistant is unavailable. Please try again later.");
+
+    console.error("Chat request failed:", error);
+
+  } finally {
+
+    button.disabled = false;
+
+    button.textContent = "Send";
+
+    input.focus();
+
+  }
+
+});
+
 document.getElementById("search").addEventListener("input", render);
+
+addChatMessage("assistant", "Hi! I can help with general client-management and workflow questions.");
 
 loadClients();
 

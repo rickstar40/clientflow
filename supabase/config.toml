@@ -1,0 +1,5 @@
+project_id = "lsfglmqxxrvtmtgvwzah"
+
+[functions.chat]
+# This demo has no user sign-in yet. Add authentication and rate limiting before production.
+verify_jwt = false
